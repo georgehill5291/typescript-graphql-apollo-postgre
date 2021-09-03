@@ -2,10 +2,14 @@ import { Box, Button, Flex, Link, Spinner } from "@chakra-ui/react";
 import InputField from "components/CustomComponent/InputField";
 import Wrapper from "components/CustomComponent/Wrapper";
 import { Form, Formik, FormikHelpers } from "formik";
-import { MeDocument, MeQuery, useChangePasswordMutation } from "generated/graphql";
+import {
+    ChangePasswordInput,
+    MeDocument,
+    MeQuery,
+    useChangePasswordMutation,
+} from "generated/graphql";
 import router, { useRouter } from "next/router";
 import React, { useState } from "react";
-import { ChangePasswordInput } from "./../../../server/src/types/ChangePasswordInput";
 import { mapFieldErrors } from "./../helper/mapFieldErrors";
 import NextLink from "next/link";
 import { useCheckAuth } from "utils/useCheckAuth";

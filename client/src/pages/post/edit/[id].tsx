@@ -3,11 +3,15 @@ import { Alert, AlertIcon, AlertTitle, Button, Spinner } from "@chakra-ui/react"
 import InputField from "components/CustomComponent/InputField";
 import Layout from "components/Shared/Layout";
 import { Form, Formik } from "formik";
-import { useMeQuery, usePostQuery, useUpdatePostMutation } from "generated/graphql";
+import {
+    UpdatePostInput,
+    useMeQuery,
+    usePostQuery,
+    useUpdatePostMutation,
+} from "generated/graphql";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { UpdatePostInput } from "./../../../../../server/src/types/UpdatePostInput";
 
 const PostEdit = () => {
     const router = useRouter();

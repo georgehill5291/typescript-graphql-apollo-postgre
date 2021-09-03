@@ -1,12 +1,11 @@
 import { Button, Flex, Link, Spinner, useToast } from "@chakra-ui/react";
 import { Form, Formik, FormikHelpers } from "formik";
-import { FieldError, MeDocument, MeQuery, useLoginMutation } from "generated/graphql";
+import { FieldError, LoginInput, MeDocument, MeQuery, useLoginMutation } from "generated/graphql";
 import { useRouter } from "next/dist/client/router";
 import React from "react";
 import InputField from "../components/CustomComponent/InputField";
 import Wrapper from "../components/CustomComponent/Wrapper";
 import { mapFieldErrors } from "../helper/mapFieldErrors";
-import { LoginInput } from "./../../../server/src/types/LoginInput";
 import { useCheckAuth } from "./../utils/useCheckAuth";
 import NextLink from "next/link";
 import { initializeApollo } from "lib/apolloClient";
