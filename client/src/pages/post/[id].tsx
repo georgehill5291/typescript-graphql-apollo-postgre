@@ -1,22 +1,21 @@
 import { Alert, AlertIcon, AlertTitle } from "@chakra-ui/alert";
-import { Button, IconButton } from "@chakra-ui/button";
+import { Button } from "@chakra-ui/button";
 import { Box, Flex, Heading } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
+import ActionsButton from "components/Shared/ActionsButton";
 import Layout from "components/Shared/Layout";
 import {
-    usePostQuery,
-    PostsDocument,
+    PostDocument,
     PostIdsQuery,
     PostQuery,
-    PostDocument,
+    PostsDocument,
+    usePostQuery,
 } from "generated/graphql";
 import { addApolloState, initializeApollo } from "lib/apolloClient";
 import { GetStaticPaths, GetStaticProps } from "next";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import NextLink from "next/link";
-import { EditIcon } from "@chakra-ui/icons";
-import ActionsButton from "components/Shared/ActionsButton";
 
 const Post = () => {
     const router = useRouter();

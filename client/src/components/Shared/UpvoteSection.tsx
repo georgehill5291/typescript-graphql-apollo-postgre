@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { Flex, IconButton } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import { Flex, IconButton } from "@chakra-ui/react";
 import { PostFragmentFragment, useVoteMutation, VoteType } from "generated/graphql";
-import { useRouter } from "next/router";
+import React, { useState } from "react";
 
 interface IProps {
     post: PostFragmentFragment;
@@ -16,15 +15,13 @@ enum VoteTypeValue {
 const UpvoteSection = ({ post }: IProps) => {
     const [vote, { loading }] = useVoteMutation();
 
-    const router = useRouter();
-
     const [loadingState, setLoadingState] = useState<
         "upvote-loading" | "downvote-loading" | "not-loading"
     >("not-loading");
 
     const upvote = async (postId: string) => {
         setLoadingState("upvote-loading");
-        const response = await vote({
+        await vote({
             variables: {
                 inputVoteValue: VoteType.Upvote,
                 postId: parseInt(postId),

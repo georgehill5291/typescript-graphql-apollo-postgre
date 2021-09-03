@@ -9,7 +9,7 @@ import session from "express-session";
 import mongoose from "mongoose";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
-import { COOKIE_NAME } from "./const/constants";
+import { COOKIE_NAME, __prod__ } from "./const/constants";
 import { Post } from "./entities/Post";
 import { User } from "./entities/User";
 import { HelloResolver } from "./resolvers/hello";
@@ -18,22 +18,40 @@ import { UserResolver } from "./resolvers/user";
 import { CustomContext } from "./types/CustomContext";
 import { Upvote } from "./entities/Upvote";
 import { buildDataLoaders } from "./utils/dataLoader";
+import path from "path";
 
 const main = async () => {
     const connection = await createConnection({
         type: "postgres",
-        database: "reddit",
-        username: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
+        ...(__prod__
+            ? { url: process.env.DATABASE_URL }
+            : {
+                  database: "reddit",
+                  username: process.env.DB_USERNAME,
+                  password: process.env.DB_PASSWORD,
+              }),
         logging: true,
-        synchronize: true,
+        ...(__prod__
+            ? {
+                  extra: {
+                      ssl: {
+                          rejectUnauthorized: false,
+                      },
+                  },
+                  ssl: true,
+              }
+            : {}),
+        ...(__prod__ ? {} : { synchronize: true }),
         entities: [User, Post, Upvote],
+        migrations: [path.join(__dirname, "/migrations/*")],
     });
+
+    if (__prod__) await connection.runMigrations();
 
     const app = express();
     app.use(
         cors({
-            origin: "http://localhost:3000",
+            origin: __prod__ ? process.env.CORS_ORIGIN_PROD : process.env.CORS_ORIGIN_DEV,
             credentials: true,
         })
     );
@@ -55,10 +73,11 @@ const main = async () => {
             cookie: {
                 maxAge: 1000 * 60 * 60, //on hour
                 httpOnly: true, // JS from frontend can not access
-                secure: false, // cookie only work in https
+                secure: __prod__, // cookie only work in https
                 sameSite: "lax", // protection agaist CSRF
+                domain: __prod__ ? ".info" : undefined,
             },
-            secret: "dev123",
+            secret: process.env.SESSION_SECRET_DEV_PROD as string,
             saveUninitialized: false, //dont' save empty session, when start
             resave: false,
         })
@@ -83,7 +102,7 @@ const main = async () => {
     apolloServer.applyMiddleware({ app, cors: false });
 
     const PORT = process.env.PORT || 4002;
-    app.listen(4002, () =>
+    app.listen(PORT, () =>
         console.log(
             `server start port ${PORT}. GraphQL server started on localhost:${PORT}${apolloServer.graphqlPath}`
         )

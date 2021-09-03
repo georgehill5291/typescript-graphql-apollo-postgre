@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
 import React, { ReactNode } from "react";
-import { inflate } from "zlib";
 
 type WrapperSize = "regular" | "small";
 

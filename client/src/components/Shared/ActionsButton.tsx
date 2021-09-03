@@ -14,7 +14,7 @@ interface IProps {
 const ActionsButton = ({ postId, postUserId }: IProps) => {
     const [deletePost, _] = useDeletePostMutation();
 
-    const { data: meData, loading: meLoading } = useMeQuery();
+    const { data: meData } = useMeQuery();
 
     const onPostDelete = async (postId: string) => {
         await deletePost({

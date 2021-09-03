@@ -1,13 +1,13 @@
-import { Button, Flex, Link, Spinner } from "@chakra-ui/react";
+import { Button, Flex, Spinner } from "@chakra-ui/react";
 import InputField from "components/CustomComponent/InputField";
 import { Form, Formik } from "formik";
+import { useCreatePostMutation } from "generated/graphql";
+import NextLink from "next/link";
+import router from "next/router";
 import React from "react";
 import { useCheckAuth } from "utils/useCheckAuth";
-import Layout from "./../components/Shared/Layout";
-import NextLink from "next/link";
-import { useCreatePostMutation } from "generated/graphql";
 import { CreatePostInput } from "./../../../server/src/types/CreatePostInput";
-import router from "next/router";
+import Layout from "./../components/Shared/Layout";
 
 const CreatePost = () => {
     const { data: authData, loading: authLoading } = useCheckAuth();

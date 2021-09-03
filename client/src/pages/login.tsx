@@ -17,7 +17,7 @@ const initialValues: LoginInput = {
 };
 
 const Login = () => {
-    const [loginUser, { data, error, loading: _loginUserLoadData }] = useLoginMutation();
+    const [loginUser, { error, loading: _loginUserLoadData }] = useLoginMutation();
 
     const { data: authData, loading: authLoading } = useCheckAuth();
 

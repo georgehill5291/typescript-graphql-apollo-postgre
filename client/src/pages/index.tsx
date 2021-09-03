@@ -4,12 +4,7 @@ import ActionsButton from "components/Shared/ActionsButton";
 import UpvoteSection from "components/Shared/UpvoteSection";
 import { PostsDocument, useMeQuery, usePostsQuery } from "generated/graphql";
 import { addApolloState, initializeApollo } from "lib/apolloClient";
-import {
-    GetServerSideProps,
-    GetServerSidePropsContext,
-    GetStaticProps,
-    GetStaticPropsContext,
-} from "next";
+import { GetServerSideProps, GetServerSidePropsContext } from "next";
 import NextLink from "next/link";
 import React from "react";
 import Layout from "./../components/Shared/Layout";
@@ -19,7 +14,7 @@ const limit = 3;
 const Index = () => {
     const { data: meData } = useMeQuery();
 
-    const { data, loading, error, fetchMore, networkStatus } = usePostsQuery({
+    const { data, loading, fetchMore, networkStatus } = usePostsQuery({
         variables: {
             limit,
         },

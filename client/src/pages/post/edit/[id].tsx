@@ -1,12 +1,12 @@
 import { Flex } from "@chakra-ui/layout";
 import { Alert, AlertIcon, AlertTitle, Button, Spinner } from "@chakra-ui/react";
+import InputField from "components/CustomComponent/InputField";
 import Layout from "components/Shared/Layout";
-import { useRouter } from "next/router";
-import React from "react";
+import { Form, Formik } from "formik";
 import { useMeQuery, usePostQuery, useUpdatePostMutation } from "generated/graphql";
 import NextLink from "next/link";
-import { Form, Formik } from "formik";
-import InputField from "components/CustomComponent/InputField";
+import { useRouter } from "next/router";
+import React from "react";
 import { UpdatePostInput } from "./../../../../../server/src/types/UpdatePostInput";
 
 const PostEdit = () => {
@@ -16,11 +16,7 @@ const PostEdit = () => {
 
     const [updatePost, _] = useUpdatePostMutation();
 
-    const {
-        data: postData,
-        loading: postLoading,
-        error,
-    } = usePostQuery({
+    const { data: postData, loading: postLoading } = usePostQuery({
         variables: {
             id: router.query.id as string,
         },

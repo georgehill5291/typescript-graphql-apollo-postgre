@@ -1,8 +1,7 @@
+import { gql, Reference } from "@apollo/client";
 import { Box, Button, Flex, Heading, Link } from "@chakra-ui/react";
-import { initializeApollo } from "lib/apolloClient";
 import NextLink from "next/link";
 import { MeDocument, MeQuery, useLogoutMutation, useMeQuery } from "./../../generated/graphql";
-import { Reference, gql } from "@apollo/client";
 
 const Navbar = () => {
     const { data, loading: useMeQueryLoading } = useMeQuery();

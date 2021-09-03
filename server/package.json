@@ -4,6 +4,7 @@
     "description": "george reddit",
     "main": "index.js",
     "scripts": {
+        "buid": "rm -rf dist && tsc",
         "start": "node dist/index.ts",
         "start-ts": "ts-node src/index.ts",
         "server": "nodemon dist/index.js",
