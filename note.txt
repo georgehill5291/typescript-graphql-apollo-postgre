@@ -1,0 +1,1 @@
+window 10: debug: need create account full access for PgAdmin

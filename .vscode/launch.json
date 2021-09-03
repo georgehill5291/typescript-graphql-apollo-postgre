@@ -1,0 +1,31 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "tsc",
+        "env": {
+            "SESSION_DB_USERNAME":"george",
+            "SESSION_DB_PASSWORD":"dev123",
+            "SESSION_SECRET_DEV_PROD":"mysecret"
+        },
+        "program": "${workspaceFolder}\\server\\src\\index.ts",
+        "preLaunchTask": "tsc: watch - server/tsconfig.json",
+        "sourceMaps": true,
+        "smartStep": true,
+        "internalConsoleOptions": "openOnSessionStart",
+        "outFiles": [
+            "${workspaceFolder}/server/dist/**/*.js"
+        ]
+    },
+
+    {
+      "type": "pwa-chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}"
+  }
+  ]
+}
