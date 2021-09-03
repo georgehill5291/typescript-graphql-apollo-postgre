@@ -23,18 +23,14 @@ const UpvoteSection = ({ post }: IProps) => {
     >("not-loading");
 
     const upvote = async (postId: string) => {
-        try {
-            setLoadingState("upvote-loading");
-            const response = await vote({
-                variables: {
-                    inputVoteValue: VoteType.Upvote,
-                    postId: parseInt(postId),
-                },
-            });
-            setLoadingState("not-loading");
-        } catch (error) {
-            router.push("/login");
-        }
+        setLoadingState("upvote-loading");
+        const response = await vote({
+            variables: {
+                inputVoteValue: VoteType.Upvote,
+                postId: parseInt(postId),
+            },
+        });
+        setLoadingState("not-loading");
     };
 
     const downvote = async (postId: string) => {

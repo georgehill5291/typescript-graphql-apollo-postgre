@@ -17,6 +17,7 @@ import { PostResolver } from "./resolvers/post";
 import { UserResolver } from "./resolvers/user";
 import { CustomContext } from "./types/CustomContext";
 import { Upvote } from "./entities/Upvote";
+import { buildDataLoaders } from "./utils/dataLoader";
 
 const main = async () => {
     const connection = await createConnection({
@@ -68,7 +69,12 @@ const main = async () => {
             resolvers: [HelloResolver, UserResolver, PostResolver],
             validate: false,
         }),
-        context: ({ req, res }): CustomContext => ({ req, res, connection }),
+        context: ({ req, res }): CustomContext => ({
+            req,
+            res,
+            connection,
+            dataLoaders: buildDataLoaders(),
+        }),
         plugins: [ApolloServerPluginLandingPageGraphQLPlayground],
     });
 
