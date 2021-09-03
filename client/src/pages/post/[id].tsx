@@ -6,9 +6,9 @@ import ActionsButton from "components/Shared/ActionsButton";
 import Layout from "components/Shared/Layout";
 import {
     PostDocument,
+    PostIdsDocument,
     PostIdsQuery,
     PostQuery,
-    PostsDocument,
     usePostQuery,
 } from "generated/graphql";
 import { addApolloState, initializeApollo } from "lib/apolloClient";
@@ -66,7 +66,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const apolloClient = initializeApollo();
 
     const { data } = await apolloClient.query<PostIdsQuery>({
-        query: PostsDocument,
+        query: PostIdsDocument,
         variables: {
             limit: 3,
         },
