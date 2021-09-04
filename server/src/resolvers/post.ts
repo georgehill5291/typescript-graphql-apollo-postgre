@@ -200,6 +200,7 @@ export class PostResolver {
                 message: "Unauthorized",
             };
         }
+        await Upvote.delete({ postId: id });
 
         await Post.delete({ id });
 

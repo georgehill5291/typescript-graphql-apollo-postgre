@@ -49,6 +49,8 @@ const main = async () => {
     if (__prod__) await connection.runMigrations();
 
     const app = express();
+    app.set("trust proxy", 1);
+
     app.use(
         cors({
             origin: __prod__ ? process.env.CORS_ORIGIN_PROD : process.env.CORS_ORIGIN_DEV,
@@ -74,8 +76,7 @@ const main = async () => {
                 maxAge: 1000 * 60 * 60, //on hour
                 httpOnly: true, // JS from frontend can not access
                 secure: __prod__, // cookie only work in https
-                sameSite: "lax", // protection agaist CSRF
-                domain: __prod__ ? ".info" : undefined,
+                sameSite: "none", // protection agaist CSRF
             },
             secret: process.env.SESSION_SECRET_DEV_PROD as string,
             saveUninitialized: false, //dont' save empty session, when start
