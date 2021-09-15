@@ -30,16 +30,16 @@ const main = async () => {
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         logging: true,
-        ...(__prod__
-            ? {
-                  extra: {
-                      ssl: {
-                          rejectUnauthorized: false,
-                      },
-                  },
-                  ssl: true,
-              }
-            : {}),
+        // ...(__prod__
+        //     ? {
+        //           extra: {
+        //               ssl: {
+        //                   rejectUnauthorized: false,
+        //               },
+        //           },
+        //           ssl: true,
+        //       }
+        //     : {}),
         ...(__prod__ ? {} : { synchronize: true }),
         entities: [User, Post, Upvote, Film],
         // migrations: [path.join(__dirname, "/migrations/*")],
