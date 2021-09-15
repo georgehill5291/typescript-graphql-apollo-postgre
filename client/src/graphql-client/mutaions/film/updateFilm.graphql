@@ -1,0 +1,5 @@
+mutation UpdateFilm($updateFilmInput: UpdateFilmInput!) {
+    updateFilm(updateFilmInput: $updateFilmInput) {
+        ...filmMutationResponse
+    }
+}

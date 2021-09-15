@@ -20,6 +20,13 @@ export type ChangePasswordInput = {
   newPassword: Scalars['String'];
 };
 
+export type CreateFilmInput = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  imageBanner: Scalars['String'];
+};
+
 export type CreatePostInput = {
   title: Scalars['String'];
   text: Scalars['String'];
@@ -30,6 +37,26 @@ export type FieldError = {
   __typename?: 'FieldError';
   field: Scalars['String'];
   message: Scalars['String'];
+};
+
+export type Film = {
+  __typename?: 'Film';
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  imageBanner: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type FilmMutationResponse = IMutationRepsponse & {
+  __typename?: 'FilmMutationResponse';
+  code: Scalars['Float'];
+  success: Scalars['Boolean'];
+  message?: Maybe<Scalars['String']>;
+  film?: Maybe<Film>;
+  error?: Maybe<Array<FieldError>>;
 };
 
 export type ForgotPasswordInput = {
@@ -58,6 +85,9 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   forgotPassword: Scalars['Boolean'];
   changePassword: UserMutationResponse;
+  createFilm: FilmMutationResponse;
+  updateFilm: FilmMutationResponse;
+  deleteFilm: FilmMutationResponse;
 };
 
 
@@ -103,6 +133,27 @@ export type MutationChangePasswordArgs = {
   token: Scalars['String'];
 };
 
+
+export type MutationCreateFilmArgs = {
+  createFilmInput: CreateFilmInput;
+};
+
+
+export type MutationUpdateFilmArgs = {
+  updateFilmInput: UpdateFilmInput;
+};
+
+
+export type MutationDeleteFilmArgs = {
+  id: Scalars['ID'];
+};
+
+export type PaginatedFilms = {
+  __typename?: 'PaginatedFilms';
+  totalCount: Scalars['Float'];
+  paginatedFilms: Array<Film>;
+};
+
 export type PaginatedPosts = {
   __typename?: 'PaginatedPosts';
   totalCount: Scalars['Float'];
@@ -140,6 +191,8 @@ export type Query = {
   posts?: Maybe<PaginatedPosts>;
   post?: Maybe<Post>;
   me?: Maybe<User>;
+  films?: Maybe<PaginatedFilms>;
+  film?: Maybe<Film>;
 };
 
 
@@ -153,10 +206,29 @@ export type QueryPostArgs = {
   id: Scalars['ID'];
 };
 
+
+export type QueryFilmsArgs = {
+  start: Scalars['Int'];
+  limit: Scalars['Int'];
+};
+
+
+export type QueryFilmArgs = {
+  id: Scalars['ID'];
+};
+
 export type RegisterInput = {
   username: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type UpdateFilmInput = {
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  description: Scalars['String'];
+  url: Scalars['String'];
+  imageBanner: Scalars['String'];
 };
 
 export type UpdatePostInput = {
@@ -190,6 +262,10 @@ export enum VoteType {
 }
 
 export type FieldErrorFragment = { __typename?: 'FieldError', field: string, message: string };
+
+export type FilmFragmentFragment = { __typename?: 'Film', id: string, title: string, description: string, url: string, imageBanner: string, createdAt: any, updatedAt: any };
+
+export type FilmMutationResponseFragment = { __typename?: 'FilmMutationResponse', code: number, success: boolean, message?: Maybe<string>, film?: Maybe<{ __typename?: 'Film', id: string, title: string, description: string, url: string, imageBanner: string, createdAt: any, updatedAt: any }>, error?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> };
 
 export type MutationStatusesFragment = { __typename?: 'UserMutationResponse', code: number, success: boolean, message?: Maybe<string> };
 
@@ -225,6 +301,20 @@ export type DeletePostMutationVariables = Exact<{
 
 
 export type DeletePostMutation = { __typename?: 'Mutation', deletePost: { __typename?: 'PostMutationResponse', code: number, success: boolean, message?: Maybe<string> } };
+
+export type CreateFilmMutationVariables = Exact<{
+  createFilmInput: CreateFilmInput;
+}>;
+
+
+export type CreateFilmMutation = { __typename?: 'Mutation', createFilm: { __typename?: 'FilmMutationResponse', code: number, success: boolean, message?: Maybe<string>, film?: Maybe<{ __typename?: 'Film', id: string, title: string, description: string, url: string, imageBanner: string, createdAt: any, updatedAt: any }>, error?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
+
+export type UpdateFilmMutationVariables = Exact<{
+  updateFilmInput: UpdateFilmInput;
+}>;
+
+
+export type UpdateFilmMutation = { __typename?: 'Mutation', updateFilm: { __typename?: 'FilmMutationResponse', code: number, success: boolean, message?: Maybe<string>, film?: Maybe<{ __typename?: 'Film', id: string, title: string, description: string, url: string, imageBanner: string, createdAt: any, updatedAt: any }>, error?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
 
 export type ForgotPasswordMutationVariables = Exact<{
   forgotPasswordInput: ForgotPasswordInput;
@@ -267,6 +357,21 @@ export type VoteMutationVariables = Exact<{
 
 export type VoteMutation = { __typename?: 'Mutation', vote: { __typename?: 'PostMutationResponse', code: number, success: boolean, message?: Maybe<string>, post?: Maybe<{ __typename?: 'Post', id: string, title: string, text: string, textSnippet: string, createdAt: any, updatedAt: any, point: number, voteType: number, user: { __typename?: 'User', id: string, username: string } }>, error?: Maybe<Array<{ __typename?: 'FieldError', field: string, message: string }>> } };
 
+export type FilmQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type FilmQuery = { __typename?: 'Query', film?: Maybe<{ __typename?: 'Film', id: string, title: string, description: string, url: string, imageBanner: string }> };
+
+export type FilmsQueryVariables = Exact<{
+  start: Scalars['Int'];
+  limit: Scalars['Int'];
+}>;
+
+
+export type FilmsQuery = { __typename?: 'Query', films?: Maybe<{ __typename?: 'PaginatedFilms', totalCount: number, paginatedFilms: Array<{ __typename?: 'Film', id: string, title: string, description: string, url: string, imageBanner: string }> }> };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -295,6 +400,37 @@ export type PostsQueryVariables = Exact<{
 
 export type PostsQuery = { __typename?: 'Query', posts?: Maybe<{ __typename?: 'PaginatedPosts', totalCount: number, cursor: any, hasMore: boolean, paginatedPosts: Array<{ __typename?: 'Post', id: string, title: string, text: string, textSnippet: string, createdAt: any, updatedAt: any, point: number, voteType: number, user: { __typename?: 'User', id: string, username: string } }> }> };
 
+export const FilmFragmentFragmentDoc = gql`
+    fragment filmFragment on Film {
+  id
+  title
+  description
+  url
+  imageBanner
+  createdAt
+  updatedAt
+}
+    `;
+export const FieldErrorFragmentDoc = gql`
+    fragment fieldError on FieldError {
+  field
+  message
+}
+    `;
+export const FilmMutationResponseFragmentDoc = gql`
+    fragment filmMutationResponse on FilmMutationResponse {
+  code
+  success
+  message
+  film {
+    ...filmFragment
+  }
+  error {
+    ...fieldError
+  }
+}
+    ${FilmFragmentFragmentDoc}
+${FieldErrorFragmentDoc}`;
 export const PostMutationStatusesFragmentDoc = gql`
     fragment postMutationStatuses on PostMutationResponse {
   code
@@ -316,12 +452,6 @@ export const PostFragmentFragmentDoc = gql`
     id
     username
   }
-}
-    `;
-export const FieldErrorFragmentDoc = gql`
-    fragment fieldError on FieldError {
-  field
-  message
 }
     `;
 export const PostMutationResponseFragmentDoc = gql`
@@ -469,6 +599,72 @@ export function useDeletePostMutation(baseOptions?: Apollo.MutationHookOptions<D
 export type DeletePostMutationHookResult = ReturnType<typeof useDeletePostMutation>;
 export type DeletePostMutationResult = Apollo.MutationResult<DeletePostMutation>;
 export type DeletePostMutationOptions = Apollo.BaseMutationOptions<DeletePostMutation, DeletePostMutationVariables>;
+export const CreateFilmDocument = gql`
+    mutation CreateFilm($createFilmInput: CreateFilmInput!) {
+  createFilm(createFilmInput: $createFilmInput) {
+    ...filmMutationResponse
+  }
+}
+    ${FilmMutationResponseFragmentDoc}`;
+export type CreateFilmMutationFn = Apollo.MutationFunction<CreateFilmMutation, CreateFilmMutationVariables>;
+
+/**
+ * __useCreateFilmMutation__
+ *
+ * To run a mutation, you first call `useCreateFilmMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateFilmMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createFilmMutation, { data, loading, error }] = useCreateFilmMutation({
+ *   variables: {
+ *      createFilmInput: // value for 'createFilmInput'
+ *   },
+ * });
+ */
+export function useCreateFilmMutation(baseOptions?: Apollo.MutationHookOptions<CreateFilmMutation, CreateFilmMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateFilmMutation, CreateFilmMutationVariables>(CreateFilmDocument, options);
+      }
+export type CreateFilmMutationHookResult = ReturnType<typeof useCreateFilmMutation>;
+export type CreateFilmMutationResult = Apollo.MutationResult<CreateFilmMutation>;
+export type CreateFilmMutationOptions = Apollo.BaseMutationOptions<CreateFilmMutation, CreateFilmMutationVariables>;
+export const UpdateFilmDocument = gql`
+    mutation UpdateFilm($updateFilmInput: UpdateFilmInput!) {
+  updateFilm(updateFilmInput: $updateFilmInput) {
+    ...filmMutationResponse
+  }
+}
+    ${FilmMutationResponseFragmentDoc}`;
+export type UpdateFilmMutationFn = Apollo.MutationFunction<UpdateFilmMutation, UpdateFilmMutationVariables>;
+
+/**
+ * __useUpdateFilmMutation__
+ *
+ * To run a mutation, you first call `useUpdateFilmMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateFilmMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateFilmMutation, { data, loading, error }] = useUpdateFilmMutation({
+ *   variables: {
+ *      updateFilmInput: // value for 'updateFilmInput'
+ *   },
+ * });
+ */
+export function useUpdateFilmMutation(baseOptions?: Apollo.MutationHookOptions<UpdateFilmMutation, UpdateFilmMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateFilmMutation, UpdateFilmMutationVariables>(UpdateFilmDocument, options);
+      }
+export type UpdateFilmMutationHookResult = ReturnType<typeof useUpdateFilmMutation>;
+export type UpdateFilmMutationResult = Apollo.MutationResult<UpdateFilmMutation>;
+export type UpdateFilmMutationOptions = Apollo.BaseMutationOptions<UpdateFilmMutation, UpdateFilmMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($forgotPasswordInput: ForgotPasswordInput!) {
   forgotPassword(forgotPasswordInput: $forgotPasswordInput)
@@ -663,6 +859,88 @@ export function useVoteMutation(baseOptions?: Apollo.MutationHookOptions<VoteMut
 export type VoteMutationHookResult = ReturnType<typeof useVoteMutation>;
 export type VoteMutationResult = Apollo.MutationResult<VoteMutation>;
 export type VoteMutationOptions = Apollo.BaseMutationOptions<VoteMutation, VoteMutationVariables>;
+export const FilmDocument = gql`
+    query Film($id: ID!) {
+  film(id: $id) {
+    id
+    title
+    description
+    url
+    imageBanner
+  }
+}
+    `;
+
+/**
+ * __useFilmQuery__
+ *
+ * To run a query within a React component, call `useFilmQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFilmQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFilmQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useFilmQuery(baseOptions: Apollo.QueryHookOptions<FilmQuery, FilmQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FilmQuery, FilmQueryVariables>(FilmDocument, options);
+      }
+export function useFilmLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FilmQuery, FilmQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FilmQuery, FilmQueryVariables>(FilmDocument, options);
+        }
+export type FilmQueryHookResult = ReturnType<typeof useFilmQuery>;
+export type FilmLazyQueryHookResult = ReturnType<typeof useFilmLazyQuery>;
+export type FilmQueryResult = Apollo.QueryResult<FilmQuery, FilmQueryVariables>;
+export const FilmsDocument = gql`
+    query Films($start: Int!, $limit: Int!) {
+  films(start: $start, limit: $limit) {
+    totalCount
+    paginatedFilms {
+      id
+      title
+      description
+      url
+      imageBanner
+    }
+  }
+}
+    `;
+
+/**
+ * __useFilmsQuery__
+ *
+ * To run a query within a React component, call `useFilmsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFilmsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFilmsQuery({
+ *   variables: {
+ *      start: // value for 'start'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useFilmsQuery(baseOptions: Apollo.QueryHookOptions<FilmsQuery, FilmsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FilmsQuery, FilmsQueryVariables>(FilmsDocument, options);
+      }
+export function useFilmsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FilmsQuery, FilmsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FilmsQuery, FilmsQueryVariables>(FilmsDocument, options);
+        }
+export type FilmsQueryHookResult = ReturnType<typeof useFilmsQuery>;
+export type FilmsLazyQueryHookResult = ReturnType<typeof useFilmsLazyQuery>;
+export type FilmsQueryResult = Apollo.QueryResult<FilmsQuery, FilmsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {

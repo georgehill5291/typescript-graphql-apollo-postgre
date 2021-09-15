@@ -93,6 +93,11 @@ const Login = () => {
                                         <Link ml="auto">Forgot password</Link>
                                     </NextLink>
                                 </Flex>
+                                <Flex mt={2}>
+                                    <NextLink href="/">
+                                        <Link ml="auto">Back to Home</Link>
+                                    </NextLink>
+                                </Flex>
 
                                 <Button
                                     type="submit"

@@ -1,0 +1,9 @@
+query Film($id: ID!) {
+    film(id: $id) {
+        id
+        title
+        description
+        url
+        imageBanner
+    }
+}

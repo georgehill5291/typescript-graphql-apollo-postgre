@@ -1,0 +1,11 @@
+fragment filmMutationResponse on FilmMutationResponse {
+    code
+    success
+    message
+    film {
+        ...filmFragment
+    }
+    error {
+        ...fieldError
+    }
+}

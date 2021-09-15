@@ -1,0 +1,9 @@
+fragment filmFragment on Film {
+    id
+    title
+    description
+    url
+    imageBanner
+    createdAt
+    updatedAt
+}

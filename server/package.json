@@ -6,6 +6,7 @@
     "scripts": {
         "buid": "rm -rf dist && tsc",
         "start": "node dist/index.ts",
+        "prod": "node dist/index.js",
         "start-ts": "ts-node src/index.ts",
         "server": "nodemon dist/index.js",
         "server-ts": "nodemon --exec ts-noded src/index.ts",

@@ -1,0 +1,12 @@
+query Films($start: Int!, $limit: Int!) {
+    films(start: $start, limit: $limit) {
+        totalCount
+        paginatedFilms {
+            id
+            title
+            description
+            url
+            imageBanner
+        }
+    }
+}

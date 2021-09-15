@@ -1,11 +1,13 @@
 import { gql, Reference } from "@apollo/client";
 import { Box, Button, Flex, Heading, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { MeDocument, MeQuery, useLogoutMutation, useMeQuery } from "./../../generated/graphql";
 
 const Navbar = () => {
     const { data, loading: useMeQueryLoading } = useMeQuery();
     const [logout, { loading: useLogoutMutationLoading }] = useLogoutMutation();
+    const router = useRouter();
 
     const logoutUser = async () => {
         await logout({
@@ -67,9 +69,15 @@ const Navbar = () => {
         body = (
             <>
                 <Flex>
-                    <NextLink href="/create-post">
-                        <Button mr={4}>Create Post</Button>
-                    </NextLink>
+                    {router.asPath.includes("/film") ? (
+                        <NextLink href="/film/create">
+                            <Button mr={4}>Create Film</Button>
+                        </NextLink>
+                    ) : (
+                        <NextLink href="/create-post">
+                            <Button mr={4}>Create Post</Button>
+                        </NextLink>
+                    )}
 
                     <Box>
                         <Button onClick={logoutUser} isLoading={useLogoutMutationLoading}>
@@ -81,12 +89,22 @@ const Navbar = () => {
         );
     }
 
+    console.log(router.asPath);
+
     return (
         <Box bg="tan" p={4}>
             <Flex maxW={800} justifyContent="space-between" m="auto" align="center">
-                <NextLink href="/">
-                    <Heading>George NextJS</Heading>
-                </NextLink>
+                <Flex>
+                    <NextLink href="/">
+                        <Heading>George NextJS</Heading>
+                    </NextLink>
+
+                    <Box my="auto" ml={2}>
+                        <NextLink href="/film-listing">
+                            <Link>Films</Link>
+                        </NextLink>
+                    </Box>
+                </Flex>
 
                 {body}
             </Flex>

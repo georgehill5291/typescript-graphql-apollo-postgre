@@ -18,18 +18,17 @@ import { UserResolver } from "./resolvers/user";
 import { CustomContext } from "./types/CustomContext";
 import { Upvote } from "./entities/Upvote";
 import { buildDataLoaders } from "./utils/dataLoader";
-import path from "path";
+import { Film } from "./entities/Film";
+import { FilmResolver } from "./resolvers/film";
 
 const main = async () => {
     const connection = await createConnection({
         type: "postgres",
-        ...(__prod__
-            ? { url: process.env.DATABASE_URL }
-            : {
-                  database: "reddit",
-                  username: process.env.DB_USERNAME,
-                  password: process.env.DB_PASSWORD,
-              }),
+        host: process.env.AWS_RDS_POSTGRES_HOST,
+        port: 5432,
+        database: "reddit",
+        username: process.env.DB_USERNAME,
+        password: process.env.DB_PASSWORD,
         logging: true,
         ...(__prod__
             ? {
@@ -42,11 +41,13 @@ const main = async () => {
               }
             : {}),
         ...(__prod__ ? {} : { synchronize: true }),
-        entities: [User, Post, Upvote],
-        migrations: [path.join(__dirname, "/migrations/*")],
+        entities: [User, Post, Upvote, Film],
+        // migrations: [path.join(__dirname, "/migrations/*")],
     });
 
-    if (__prod__) await connection.runMigrations();
+    console.log("Postgres connected");
+
+    // if (__prod__) await connection.runMigrations();
 
     const app = express();
     app.set("trust proxy", 1);
@@ -76,7 +77,7 @@ const main = async () => {
                 maxAge: 1000 * 60 * 60, //on hour
                 httpOnly: true, // JS from frontend can not access
                 secure: __prod__, // cookie only work in https
-                sameSite: "none", // protection agaist CSRF
+                sameSite: "lax", // protection agaist CSRF //none if difference domain
             },
             secret: process.env.SESSION_SECRET_DEV_PROD as string,
             saveUninitialized: false, //dont' save empty session, when start
@@ -86,7 +87,7 @@ const main = async () => {
 
     const apolloServer = new ApolloServer({
         schema: await buildSchema({
-            resolvers: [HelloResolver, UserResolver, PostResolver],
+            resolvers: [HelloResolver, UserResolver, PostResolver, FilmResolver],
             validate: false,
         }),
         context: ({ req, res }): CustomContext => ({

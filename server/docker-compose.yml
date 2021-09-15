@@ -1,10 +1,10 @@
 version: "3"
 
 services:
-    next-fe-image:
+    next-be-image:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: next-fe-container
+        container_name: next-be-container
         ports:
-            - "3003:3003"
+            - "4002:4002"
