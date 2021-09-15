@@ -42,7 +42,7 @@ function createApolloClient(headers: IncomingHttpHeaders | null = null) {
 
     const httpLink = new HttpLink({
         uri:
-            process.env.NEXT_NODE_ENV === "production"
+            process.env.NEXT_PUBLIC_NODE_ENV === "production"
                 ? "http://nextjs.georgedev.info/graphql"
                 : "http://localhost:4002/graphql", // Server URL (must be absolute)
         credentials: "include", // Additional fetch() options like `credentials` or `headers`,

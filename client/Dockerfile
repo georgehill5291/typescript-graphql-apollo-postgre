@@ -8,6 +8,6 @@ COPY yarn.lock ./
 RUN yarn
 COPY . .
 RUN yarn build
-ENV NEXT_NODE_ENV=production
+ENV NEXT_PUBLIC_NODE_ENV=production
 
 CMD ["yarn", "prod"] 
